@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMR University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-image: url("../assets/rv_bg.jpg");
+            filter: brightness(0.4);
+            z-index: -1;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: white;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            padding-top: 80px; /* Add space for fixed header */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 2rem;
+        }
+
+        .university-header {
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            margin-top: 2rem;
+        }
+
+        .university-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-right: 2rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 10px;
+        }
+
+        .university-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .university-info p {
+            font-size: 1rem;
+            opacity: 0.8;
+            max-width: 600px;
+        }
+
+        .features-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #FFD700;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem;
+            overflow: hidden;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 500;
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .reviews-section h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .review-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        .review-info h3 {
+            color: white;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .rating {
+            color: #FFD700;
+            margin-top: 0.2rem;
+        }
+
+        .review-text {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .review-date {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            text-align: right;
+        }
+
+        /* Submit Review Form */
+        .review-form-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .review-form-section h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .review-form {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.3);
+            padding: 0 0.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label {
+            color: #FFD700;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        /* About section */
+        .about-section {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .about-section h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .about-image {
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Courses section */
+        .courses-section {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .courses-section h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .courses-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .course-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .course-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .course-card p {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .course-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Facilities section */
+        .facilities-section {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .facilities-section h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .facilities-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .facility-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .facility-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .facility-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .facility-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .facility-card:hover .facility-image img {
+            transform: scale(1.05);
+        }
+
+        .facility-info {
+            padding: 1.5rem;
+        }
+
+        .facility-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .facility-info p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .university-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .university-logo {
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .reviews-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Reviews Section -->
+        <div class="reviews-section">
+            <h2>Student Reviews</h2>
+            <div class="reviews-container">
+                <!-- Good Review 1 -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="https://ui-avatars.com/api/?name=Priya+S&background=random" alt="Priya S">
+                        <div class="review-info">
+                            <h3>Priya S</h3>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="review-text">The faculty at CMR University is exceptional! They bring real-world experience into the classroom and are always available for guidance. The campus infrastructure is modern and well-maintained. I've had access to cutting-edge labs that have significantly enhanced my learning experience.</p>
+                    <p class="review-date">February 12, 2025</p>
+                </div>
+                <!-- More review cards here -->
+            </div>
+        </div>
+
+        <!-- Submit Review Section -->
+        <div class="review-form-section">
+            <h2>Share Your Experience</h2>
+            <form class="review-form" id="reviewForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Rating</label>
+                    <div class="star-rating">
+                        <input type="radio" id="star5" name="rating" value="5" required>
+                        <label for="star5" class="fas fa-star"></label>
+                        <input type="radio" id="star4" name="rating" value="4">
+                        <label for="star4" class="fas fa-star"></label>
+                        <input type="radio" id="star3" name="rating" value="3">
+                        <label for="star3" class="fas fa-star"></label>
+                        <input type="radio" id="star2" name="rating" value="2">
+                        <label for="star2" class="fas fa-star"></label>
+                        <input type="radio" id="star1" name="rating" value="1">
+                        <label for="star1" class="fas fa-star"></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reviewText">Your Review</label>
+                    <textarea class="form-control" id="reviewText" name="reviewText" placeholder="Share your experience at CMR University" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Review</button>
+                <div class="success-message" id="successMessage">
+                    <p>Thank you for your review! It has been submitted successfully.</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const reviewForm = document.getElementById('reviewForm');
+            const successMessage = document.getElementById('successMessage');
+            
+            reviewForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get the form values
+                const name = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const rating = document.querySelector('input[name="rating"]:checked').value;
+                const reviewText = document.getElementById('reviewText').value;
+                
+                // Here you would normally send the data to your server
+                // For demonstration, we'll just create a new review element and add it to the page
+                
+                // Create new review card
+                const reviewsContainer = document.querySelector('.reviews-container');
+                const newReview = document.createElement('div');
+                newReview.className = 'review-card';
+                
+                // Get initials for avatar
+                const nameParts = name.split(' ');
+                const initials = nameParts.length > 1 
+                    ? `${nameParts[0][0]}+${nameParts[1][0]}` 
+                    : `${nameParts[0][0]}+X`;
+                
+                // Get current date
+                const now = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = now.toLocaleDateString('en-US', options);
+                
+                // Create stars based on rating
+                let stars = '';
+                for(let i = 1; i <= 5; i++) {
+                    if(i <= rating) {
+                        stars += '<i class="fas fa-star"></i>';
+                    } else {
+                        stars += '<i class="far fa-star"></i>';
+                    }
+                }
+                
+                // Set inner HTML for the new review
+                newReview.innerHTML = `
+                    <div class="review-header">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random" alt="${name}">
+                        <div class="review-info">
+                            <h3>${name}</h3>
+                            <div class="rating">
+                                ${stars}
+                            </div>
+                        </div>
+                    </div>
+                    <p class="review-text">${reviewText}</p>
+                    <p class="review-date">${formattedDate}</p>
+                `;
+                
+                // Add the new review to the beginning of the reviews container
+                reviewsContainer.insertBefore(newReview, reviewsContainer.firstChild);
+                
+                // Show success message
+                successMessage.style.display = 'block';
+                
+                // Reset the form
+                reviewForm.reset();
+                
+                // Hide success message after 3 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>
